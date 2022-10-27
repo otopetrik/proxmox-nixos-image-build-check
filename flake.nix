@@ -25,7 +25,9 @@
   # to import all (starting with VMID 950):
   #   result/upload.sh proxmox.example.com 950 local-zfs
   #
-  # (or create custom script and use qmrestore with '--force true')
+  # or import with replacing exisiting VMs/templates (DANGEROUS !)
+  #   result/upload.sh proxmox.example.com 950 local-zfs --force
+  #
   outputs = { self, nixpkgs, nixos-generators }: {
 
     packages.x86_64-linux = let
@@ -87,13 +89,17 @@ cat << 'EOF' > $out/upload.sh
 #!/bin/bash
 set -euo pipefail
 
+# Use 'result/upload.sh proxmox.example.com 950 local-zfs --force'
+# to overwrite existing VMs. Does NOT ask for confirmation !
 HOST="''${1:-proxmox.example.com}"
 VMID="''${2:-950}"
 STORAGE="''${3:-local-zfs}"
+FORCE="''${4:-}"
 
 ls $(dirname "$0")/*.vma.zst | sort | while read IMG ; do
 echo "Uploading $IMG as $VMID"
-ssh root@$HOST "unzstd | qmrestore - $VMID --storage $STORAGE" < $IMG
+ssh root@$HOST "unzstd | qmrestore - $VMID $FORCE --storage $STORAGE" < $IMG
+ssh root@$HOST "qm template $VMID" < /dev/null
 ((VMID++))
 done
 EOF

@@ -1,7 +1,7 @@
 { pkgs, self, ... }: {
   proxmox = {
     qemuConf = { bios = "ovmf"; };
-    diskPartitioning = "hybrid";
+    partitionTableType = "hybrid";
   };
   system.nixos.tags = [ "efi-hybrid-grub" ];
 }

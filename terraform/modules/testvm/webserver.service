@@ -1,0 +1,10 @@
+[Unit]
+Description=Bash test webserver.
+After=firewall.service
+
+[Service]
+Environment=PATH=/run/wrappers/bin:/root/.nix-profile/bin:/etc/profiles/per-user/root/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin
+ExecStart=/root/bin/webserver.sh
+
+[Install]
+WantedBy=default.target

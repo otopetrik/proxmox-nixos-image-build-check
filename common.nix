@@ -1,10 +1,9 @@
-{ pkgs, self, ... }: {
+{ pkgs, self, config, ... }: {
   proxmox = {
     qemuConf = {
       agent = true;
       memory = 2048;
       net0 = "virtio=00:00:00:00:00:00,bridge=vmbr0,firewall=1";
-      #net0 = "virtio=00:00:00:00:00:00,bridge=vmbr1,firewall=1";
     };
     qemuExtraConf = { machine = "q35"; };
   };
@@ -18,7 +17,12 @@
   # Network configuration.
   networking.useNetworkd = true;
   networking.useDHCP = false;
-  networking.interfaces.eth0.useDHCP = true;
+
+  services.cloud-init = {
+    enable = true;
+    # must be same value as 'networking.useNetworkd'
+    network.enable = config.networking.useNetworkd;
+  };
 
   services.openssh = {
     enable = true;
@@ -28,6 +32,4 @@
   # avoid long build time
   documentation.enable = false;
 
-  # WARNING: do not use following line for real images
-  users.users.root.initialPassword = "";
 }

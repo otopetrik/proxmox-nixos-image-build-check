@@ -1,0 +1,9 @@
+# Modify and copy this file to 'variables.tfvars'
+
+ssh_keys = [
+        "ssh-ed25519 AAA....place ssh key that will be accessible to `terraform apply` here",
+      ]
+
+proxmox_endpoint = "https://proxmox.example.com:8006/"
+proxmox_username = "myusername@pve"
+proxmox_password = "mysecretpassword"

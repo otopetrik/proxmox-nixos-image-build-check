@@ -1,0 +1,49 @@
+
+== Basic information
+
+This repository is an example on how to build cloud-init enabled NixOS VM images for Proxmox.
+Booting using both UEFI and BIOS is supported, along with different disk partition options.
+
+== How to use it
+
+Build images:
+
+----
+nix build .#
+----
+
+Upload images (VMID 950-955):
+
+----
+result/upload.sh proxmox.example.com 950 local-zfs
+----
+
+or **DANGEROUS**:
+
+----
+result/upload.sh proxmox.example.com 950 local-zfs --force
+----
+
+
+Configure and run terraform:
+
+----
+cd terraform
+cp terraform.tfvars.example terraform.tfvars
+nano terraform.tfvars <1>
+terraform init
+terraform apply <2>
+----
+<1> Add `template_id_...` variables if templates are not in the default 950-955 interval.
+<2> It may be necessary to run it multiple times, Proxmox can timeout trying to get lock to access ZFS when cloning multiple VMs.
+
+After `terraform apply` following outputs should contain basic information about VM cloned from each template:
+
+-  bios-grub
+-  bios-grub-gpt
+-  bios-hybrid-grub
+-  efi-grub
+-  efi-hybrid-grub
+-  efi-systemd-boot
+
+It works as a basic image check. Cloned VMs must have been successfully configured using cloud-init and have network access for terraform provisioning for terraform output to contain anyting.
