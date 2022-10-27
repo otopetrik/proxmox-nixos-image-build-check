@@ -56,7 +56,7 @@ resource "proxmox_virtual_environment_vm" "test_vm" {
   }
 
   initialization {
-    datastore_id = "local-zfs"
+    datastore_id = var.datastore_id
     ip_config {
       ipv4 {
         address = "dhcp"
