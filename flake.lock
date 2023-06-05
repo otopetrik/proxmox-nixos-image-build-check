@@ -38,16 +38,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1666873983,
-        "narHash": "sha256-z/jbKhpmK5yAc7WPrnulMEAbrSgrpgVdTKtZFgkPiks=",
-        "owner": "otopetrik",
+        "lastModified": 1685865905,
+        "narHash": "sha256-XJZ/o17eOd2sEsGif+/MQBnfa2DKmndWgJyc7CWajFc=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d69ceabda92ab66170eb699ca5bcd3d4eee6116c",
+        "rev": "e7603eba51f2c7820c0a182c6bbb351181caa8e7",
         "type": "github"
       },
       "original": {
-        "owner": "otopetrik",
-        "ref": "proxmox-image-uefi",
+        "owner": "NixOS",
+        "ref": "nixos-23.05",
         "repo": "nixpkgs",
         "type": "github"
       }

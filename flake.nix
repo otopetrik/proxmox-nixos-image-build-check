@@ -3,7 +3,7 @@
     nixpkgs = {
       #type = "git";
       #url = "file:///home/....../nixpkgs?ref=proxmox-image-uefi";
-      url = "github:otopetrik/nixpkgs?ref=proxmox-image-uefi";
+      url = "github:NixOS/nixpkgs/nixos-23.05";
     };
 
     nixos-generators = {
