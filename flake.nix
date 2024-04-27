@@ -3,7 +3,7 @@
     nixpkgs = {
       #type = "git";
       #url = "file:///home/....../nixpkgs?ref=proxmox-image-uefi";
-      url = "github:NixOS/nixpkgs/nixos-23.05";
+      url = "github:NixOS/nixpkgs/nixos-23.11";
     };
 
     nixos-generators = {
@@ -78,33 +78,33 @@
           ];
           buildPhase = "";
           installPhase = ''
-mkdir $out
-cp ${bios-grub}/*.vma.zst $out/
-cp ${bios-grub-gpt}/*.vma.zst $out/
-cp ${bios-hybrid-grub}/*.vma.zst $out/
-cp ${efi-grub}/*.vma.zst $out/
-cp ${efi-hybrid-grub}/*.vma.zst $out/
-cp ${efi-systemd-boot}/*.vma.zst $out/
-cat << 'EOF' > $out/upload.sh
-#!/bin/bash
-set -euo pipefail
+            mkdir $out
+            cp ${bios-grub}/*.vma.zst $out/
+            cp ${bios-grub-gpt}/*.vma.zst $out/
+            cp ${bios-hybrid-grub}/*.vma.zst $out/
+            cp ${efi-grub}/*.vma.zst $out/
+            cp ${efi-hybrid-grub}/*.vma.zst $out/
+            cp ${efi-systemd-boot}/*.vma.zst $out/
+            cat << 'EOF' > $out/upload.sh
+            #!/bin/bash
+            set -euo pipefail
 
-# Use 'result/upload.sh proxmox.example.com 950 local-zfs --force'
-# to overwrite existing VMs. Does NOT ask for confirmation !
-HOST="''${1:-proxmox.example.com}"
-VMID="''${2:-950}"
-STORAGE="''${3:-local-zfs}"
-FORCE="''${4:-}"
+            # Use 'result/upload.sh proxmox.example.com 950 local-zfs --force'
+            # to overwrite existing VMs. Does NOT ask for confirmation !
+            HOST="''${1:-proxmox.example.com}"
+            VMID="''${2:-950}"
+            STORAGE="''${3:-local-zfs}"
+            FORCE="''${4:-}"
 
-ls $(dirname "$0")/*.vma.zst | sort | while read IMG ; do
-echo "Uploading $IMG as $VMID"
-ssh root@$HOST "unzstd | qmrestore - $VMID $FORCE --storage $STORAGE" < $IMG
-ssh root@$HOST "qm template $VMID" < /dev/null
-((VMID++))
-done
-EOF
-chmod +x $out/upload.sh
-                      '';
+            ls $(dirname "$0")/*.vma.zst | sort | while read IMG ; do
+            echo "Uploading $IMG as $VMID"
+            ssh root@$HOST "unzstd | qmrestore - $VMID $FORCE --storage $STORAGE" < $IMG
+            ssh root@$HOST "qm template $VMID" < /dev/null
+            ((VMID++))
+            done
+            EOF
+            chmod +x $out/upload.sh
+          '';
         };
     in {
       inherit bios-grub bios-grub-gpt bios-hybrid-grub;
