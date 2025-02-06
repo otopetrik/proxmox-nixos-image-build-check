@@ -1,4 +1,8 @@
 { pkgs, self, config, ... }: {
+  imports = [
+    ./nix.nix
+  ];
+
   proxmox = {
     qemuConf = {
       agent = true;
